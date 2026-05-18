@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 const createPost = asyncHandler(async (req, res) => {
     const { title, content, color } = req.body;
 
-    if ([title, content].some(field => !field?.trim())) {
+    if ([title].some(field => !field?.trim())) {
         throw new ApiError(400, "All fields are required");
     }
 
