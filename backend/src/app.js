@@ -8,7 +8,10 @@ const app = express()
 app.set("trust proxy", 1)
 
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: [
+        "http://localhost:5173",
+        "https://writespace-black.vercel.app"
+    ],
     credentials: true
 }))
 app.use(express.json({ limit: "16kb" }))

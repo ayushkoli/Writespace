@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://writespace-kv4o.onrender.com"
+      "destination": "https://writespace-kv4o.onrender.com/api/:path*"
     },
     {
       "source": "/((?!api/).*)",
