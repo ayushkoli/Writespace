@@ -7,10 +7,10 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
+      "/api": {
+        target: "https://writespace-kv4o.onrender.com",
         changeOrigin: true,
       },
     },
   },
-})
+});
