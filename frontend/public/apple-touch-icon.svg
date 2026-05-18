@@ -1,10 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" fill="none">
-  <rect width="180" height="180" rx="40" fill="#000000"/>
-  <rect x="24" y="24" width="132" height="132" rx="32" fill="#ffffff"/>
-  <g stroke="#000000" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M68 124h56"/>
-    <path d="M68 56h56"/>
-    <path d="M34 78l22-22 22 22"/>
-    <path d="M34 102l22 22 22-22"/>
-  </g>
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="120" height="120" rx="28" fill="#F3F3F3"></rect>
+
+  <!-- Pencil -->
+  <path d="M40 78L44 62L76 30C78.2 27.8 81.8 27.8 84 30L90 36C92.2 38.2 92.2 41.8 90 44L58 76L40 78Z" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+
+  <!-- Bottom line -->
+  <path d="M40 90H78" stroke="black" stroke-width="5" stroke-linecap="round"></path>
 </svg>
