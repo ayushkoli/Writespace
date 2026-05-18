@@ -18,22 +18,23 @@ const renderContentWithLinks = (text: string, className: string) => {
   const parts = text.split(urlRegex);
   return (
     <p className={className}>
-      {parts.map((part, i) =>
-        urlRegex.test(part) ? (
+      {parts.map((part, i) => {
+        const isUrl = /^https?:\/\/[^\s]+$/.test(part);
+        return isUrl ? (
           
             key={i}
             href={part}
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="underline underline-offset-2 opacity-80 hover:opacity-100 break-all"
+            className="text-blue-400 underline underline-offset-2 hover:text-blue-300 break-all transition-colors"
           >
             {part}
           </a>
         ) : (
           <span key={i}>{part}</span>
-        )
-      )}
+        );
+      })}
     </p>
   );
 };
