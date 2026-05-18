@@ -1,12 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Heart, Bookmark, MessageCircle, Trash2 } from 'lucide-react';
-import type { Post, User } from '../types';
-import { postApi } from '../api';
-import { useAuth } from '../contexts/AuthContext';
-import { listIncludesUserId } from '../utils/postEngagement';
-import { getPostColorScheme, isGradientPostBackground } from '../constants/postColors';
-import ConfirmDialog from './ConfirmDialog';
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Heart, Bookmark, MessageCircle, Trash2 } from "lucide-react";
+import type { Post, User } from "../types";
+import { postApi } from "../api";
+import { useAuth } from "../contexts/AuthContext";
+import { listIncludesUserId } from "../utils/postEngagement";
+import {
+  getPostColorScheme,
+  isGradientPostBackground,
+} from "../constants/postColors";
+import ConfirmDialog from "./ConfirmDialog";
 
 interface PostCardProps {
   post: Post;
@@ -21,7 +24,7 @@ const renderContentWithLinks = (text: string, className: string) => {
       {parts.map((part, i) => {
         const isUrl = /^https?:\/\/[^\s]+$/.test(part);
         return isUrl ? (
-          
+          <a
             key={i}
             href={part}
             target="_blank"
@@ -42,8 +45,12 @@ const renderContentWithLinks = (text: string, className: string) => {
 export default function PostCard({ post, onDelete }: PostCardProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [isLiked, setIsLiked] = useState(() => listIncludesUserId(post.likes, user?._id));
-  const [isSaved, setIsSaved] = useState(() => listIncludesUserId(post.saves, user?._id));
+  const [isLiked, setIsLiked] = useState(() =>
+    listIncludesUserId(post.likes, user?._id),
+  );
+  const [isSaved, setIsSaved] = useState(() =>
+    listIncludesUserId(post.saves, user?._id),
+  );
   const [likeCount, setLikeCount] = useState(post.likes.length);
   const [saveCount, setSaveCount] = useState(post.saves.length);
   const [likeBusy, setLikeBusy] = useState(false);
@@ -58,12 +65,14 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
     setSaveCount(post.saves.length);
   }, [post._id, user?._id, post.likes, post.saves]);
 
-  const author = (typeof post.userId === 'string' ? {} : post.userId) as User;
+  const author = (typeof post.userId === "string" ? {} : post.userId) as User;
   const colorScheme = getPostColorScheme(post.color);
   const onGradient = isGradientPostBackground(post.color);
   const isOwner =
     user &&
-    (typeof post.userId === 'object' ? (post.userId as User)._id === user._id : post.userId === user._id);
+    (typeof post.userId === "object"
+      ? (post.userId as User)._id === user._id
+      : post.userId === user._id);
 
   const contentLength = post.content?.length ?? 0;
   const isLong = contentLength > 200;
@@ -136,13 +145,13 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
       tabIndex={0}
       onClick={openPost}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           openPost();
         }
       }}
       className={`${colorScheme.bg} rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer border border-border/50 touch-manipulation ${
-        isLong ? 'p-4 sm:p-6' : 'p-4 sm:p-5'
+        isLong ? "p-4 sm:p-6" : "p-4 sm:p-5"
       }`}
     >
       <div className="flex items-start gap-3 mb-3">
@@ -153,14 +162,18 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
         >
           <div
             className={`w-10 h-10 rounded-full overflow-hidden ring-2 ${
-              onGradient ? 'ring-white/20' : 'ring-border'
+              onGradient ? "ring-white/20" : "ring-border"
             }`}
           >
             {author.profilePhoto ? (
-              <img src={author.profilePhoto} alt="" className="w-full h-full object-cover" />
+              <img
+                src={author.profilePhoto}
+                alt=""
+                className="w-full h-full object-cover"
+              />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-sm font-satoshi font-black bg-surface-3 text-text-muted">
-                {author.name?.[0]?.toUpperCase() || '?'}
+                {author.name?.[0]?.toUpperCase() || "?"}
               </div>
             )}
           </div>
@@ -175,37 +188,50 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
             >
               {author.name}
             </Link>
-            <span className={`${colorScheme.accent} text-sm truncate max-w-[120px] sm:max-w-none`}>@{author.username}</span>
+            <span
+              className={`${colorScheme.accent} text-sm truncate max-w-[120px] sm:max-w-none`}
+            >
+              @{author.username}
+            </span>
             <span className={`${colorScheme.accent} text-sm shrink-0`}>·</span>
-            <time className={`${colorScheme.accent} text-sm shrink-0`}>{timeAgo(post.createdAt)}</time>
+            <time className={`${colorScheme.accent} text-sm shrink-0`}>
+              {timeAgo(post.createdAt)}
+            </time>
           </div>
         </div>
       </div>
 
       {post.title && (
-        <h3 className={`font-satoshi font-black text-lg sm:text-xl mb-1.5 ${colorScheme.text} leading-tight`}>
+        <h3
+          className={`font-satoshi font-black text-lg sm:text-xl mb-1.5 ${colorScheme.text} leading-tight`}
+        >
           {post.title}
         </h3>
       )}
 
-      {post.content && renderContentWithLinks(
-        post.content,
-        `${colorScheme.text} text-[15px] sm:text-base leading-relaxed whitespace-pre-wrap break-words`
-      )}
+      {post.content &&
+        renderContentWithLinks(
+          post.content,
+          `${colorScheme.text} text-[15px] sm:text-base leading-relaxed whitespace-pre-wrap break-words`,
+        )}
 
       {post.image && (
         <div
           className={`mt-3 rounded-xl md:rounded-2xl overflow-hidden ring-1 ${
-            onGradient ? 'ring-white/10' : 'ring-border'
+            onGradient ? "ring-white/10" : "ring-border"
           }`}
         >
-          <img src={post.image} alt="" className="w-full h-auto max-h-[280px] md:max-h-[300px] object-cover" />
+          <img
+            src={post.image}
+            alt=""
+            className="w-full h-auto max-h-[280px] md:max-h-[300px] object-cover"
+          />
         </div>
       )}
 
       <div
         className={`flex items-center justify-between mt-4 pt-3 border-t ${
-          onGradient ? 'border-white/10' : 'border-border'
+          onGradient ? "border-white/10" : "border-border"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -228,11 +254,13 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
             disabled={!user || likeBusy}
             onClick={handleLike}
             className={`flex items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] -my-1 px-2 rounded-full disabled:opacity-40 touch-manipulation ${
-              isLiked ? 'text-pink-500' : `${colorScheme.accent}`
+              isLiked ? "text-pink-500" : `${colorScheme.accent}`
             }`}
-            aria-label={isLiked ? 'Unlike' : 'Like'}
+            aria-label={isLiked ? "Unlike" : "Like"}
           >
-            <Heart className={`w-[18px] h-[18px] sm:w-4 sm:h-4 ${isLiked ? 'fill-current' : ''}`} />
+            <Heart
+              className={`w-[18px] h-[18px] sm:w-4 sm:h-4 ${isLiked ? "fill-current" : ""}`}
+            />
             <span className="text-sm font-bold tabular-nums">{likeCount}</span>
           </button>
 
@@ -241,11 +269,13 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
             disabled={!user || saveBusy}
             onClick={handleSave}
             className={`flex items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] -my-1 px-2 rounded-full disabled:opacity-40 touch-manipulation ${
-              isSaved ? 'text-white' : `${colorScheme.accent}`
+              isSaved ? "text-white" : `${colorScheme.accent}`
             }`}
-            aria-label={isSaved ? 'Unsave' : 'Save'}
+            aria-label={isSaved ? "Unsave" : "Save"}
           >
-            <Bookmark className={`w-[18px] h-[18px] sm:w-4 sm:h-4 ${isSaved ? 'fill-current' : ''}`} />
+            <Bookmark
+              className={`w-[18px] h-[18px] sm:w-4 sm:h-4 ${isSaved ? "fill-current" : ""}`}
+            />
             <span className="text-sm font-bold tabular-nums">{saveCount}</span>
           </button>
         </div>
