@@ -13,6 +13,31 @@ interface PostCardProps {
   onDelete?: () => void;
 }
 
+const renderContentWithLinks = (text: string, className: string) => {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  return (
+    <p className={className}>
+      {parts.map((part, i) =>
+        urlRegex.test(part) ? (
+          
+            key={i}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="underline underline-offset-2 opacity-80 hover:opacity-100 break-all"
+          >
+            {part}
+          </a>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </p>
+  );
+};
+
 export default function PostCard({ post, onDelete }: PostCardProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -39,7 +64,7 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
     user &&
     (typeof post.userId === 'object' ? (post.userId as User)._id === user._id : post.userId === user._id);
 
-  const contentLength = post.content.length;
+  const contentLength = post.content?.length ?? 0;
   const isLong = contentLength > 200;
 
   const openPost = () => navigate(`/post/${post._id}`);
@@ -162,11 +187,10 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
         </h3>
       )}
 
-      <p
-        className={`${colorScheme.text} text-[15px] sm:text-base leading-relaxed whitespace-pre-wrap break-words`}
-      >
-        {post.content}
-      </p>
+      {post.content && renderContentWithLinks(
+        post.content,
+        `${colorScheme.text} text-[15px] sm:text-base leading-relaxed whitespace-pre-wrap break-words`
+      )}
 
       {post.image && (
         <div
