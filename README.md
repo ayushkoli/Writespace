@@ -4,7 +4,7 @@ A full-stack social writing app — share posts, follow users, like, save, and c
 
 **Stack:** React · Vite · Tailwind · Node.js · Express · MongoDB · Cloudinary
 
-**Live demo:** _(add your Vercel URL after deploy)_  
+**Live demo:** [writespace-black.vercel.app](https://writespace-black.vercel.app)
 **Portfolio:** [ayushkoli.vercel.app](https://ayushkoli.vercel.app/) · **GitHub:** [github.com/ayushkoli](https://github.com/ayushkoli)
 
 ---
