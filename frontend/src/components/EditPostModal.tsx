@@ -46,7 +46,7 @@ export default function EditPostModal({ post, onClose, onSaved }: EditPostModalP
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4" role="dialog" aria-modal="true">
       <button type="button" className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} aria-label="Close" />
-      <div className="relative w-full sm:max-w-lg bg-surface-2 border border-border/60 rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 animate-slide-up">
+      <div className="relative w-full sm:max-w-lg glass border border-white/10 rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 animate-slide-up">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-lg font-extrabold text-text-primary">Edit post</h2>
           <button type="button" onClick={onClose} className="p-2 rounded-full hover:bg-white/10 transition-colors">
@@ -76,7 +76,7 @@ export default function EditPostModal({ post, onClose, onSaved }: EditPostModalP
         </div>
 
         <div className="flex gap-3 mt-6">
-          <button type="button" onClick={onClose} className="flex-1 py-3 rounded-full border border-border text-text-primary font-bold hover:bg-white/5 transition-colors">
+          <button type="button" onClick={onClose} className="flex-1 py-3 rounded-full border border-white/10 text-text-primary font-bold hover:bg-white/5 transition-colors">
             Cancel
           </button>
           <button

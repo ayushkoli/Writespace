@@ -53,7 +53,7 @@ export default function ConfirmDialog({
         aria-label="Close"
         disabled={loading}
       />
-      <div className="relative w-full sm:max-w-sm bg-surface-2 border border-border/60 rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 animate-slide-up">
+      <div className="relative w-full sm:max-w-sm glass border border-white/10 rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 animate-slide-up">
         <h2 id="confirm-dialog-title" className="text-lg font-extrabold text-text-primary mb-2">
           {title}
         </h2>
@@ -63,7 +63,7 @@ export default function ConfirmDialog({
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="px-5 py-2.5 rounded-full border border-border text-text-primary font-bold text-sm hover:bg-white/5 transition-colors disabled:opacity-50"
+            className="px-5 py-2.5 rounded-full border border-white/10 text-text-primary font-bold text-sm hover:bg-white/5 transition-colors disabled:opacity-50"
           >
             {cancelLabel}
           </button>
@@ -71,10 +71,10 @@ export default function ConfirmDialog({
             type="button"
             onClick={() => void onConfirm()}
             disabled={loading}
-            className={`px-5 py-2.5 rounded-full font-bold text-sm transition-colors disabled:opacity-50 ${
+            className={`px-5 py-2.5 rounded-full font-bold text-sm transition-colors disabled:opacity-50 border ${
               danger
-                ? 'bg-red-600 hover:bg-red-500 text-white'
-                : 'bg-white text-black hover:bg-gray-100'
+                ? 'bg-[#f4212e] hover:bg-[#d81a27] text-white border-transparent'
+                : 'bg-white text-black hover:bg-white/90 border-transparent'
             }`}
           >
             {loading ? 'Please wait…' : confirmLabel}

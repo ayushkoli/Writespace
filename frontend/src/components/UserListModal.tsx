@@ -59,8 +59,8 @@ export default function UserListModal({ username, type, onClose }: UserListModal
         onClick={onClose}
         aria-label="Close"
       />
-      <div className="relative w-full sm:max-w-md max-h-[85vh] sm:max-h-[70vh] bg-surface-2 border border-border/60 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col animate-slide-up">
-        <div className="flex items-center justify-between px-5 py-4 border-b border-border/60 shrink-0">
+      <div className="relative w-full sm:max-w-md max-h-[85vh] sm:max-h-[70vh] glass border border-white/10 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col animate-slide-up">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 shrink-0">
           <h2 id="user-list-title" className="text-lg font-extrabold text-text-primary">
             {title}
           </h2>
@@ -84,7 +84,7 @@ export default function UserListModal({ username, type, onClose }: UserListModal
               {type === 'followers' ? 'No followers yet' : 'Not following anyone yet'}
             </p>
           ) : (
-            <ul className="divide-y divide-border/50">
+            <ul className="divide-y divide-white/5">
               {users.map((u) => (
                 <li key={u._id}>
                   <Link
@@ -92,11 +92,11 @@ export default function UserListModal({ username, type, onClose }: UserListModal
                     onClick={onClose}
                     className="flex items-center gap-3 px-5 py-4 hover:bg-white/[0.03] transition-colors"
                   >
-                    <div className="w-11 h-11 rounded-full overflow-hidden bg-surface-3 ring-2 ring-border/50 shrink-0">
+                    <div className="w-11 h-11 rounded-full overflow-hidden bg-white/5 ring-2 ring-white/10 shrink-0">
                       {u.profilePhoto ? (
                         <img src={u.profilePhoto} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-sm font-extrabold text-text-muted">
+                        <div className="w-full h-full flex items-center justify-center text-sm font-extrabold text-text-secondary">
                           {u.name?.[0]?.toUpperCase() || '?'}
                         </div>
                       )}

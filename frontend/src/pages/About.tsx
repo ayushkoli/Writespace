@@ -22,7 +22,7 @@ export default function About() {
           </div>
 
           <div className="px-6 sm:px-10 pb-6 sm:pb-8">
-            <div className="rounded-2xl border border-border/60 bg-surface-2/80 p-5 sm:p-6">
+            <div className="rounded-2xl border border-border/60 glass-card p-5 sm:p-6">
               <p className="text-sm font-bold text-text-muted uppercase tracking-wider mb-1">Built by</p>
               <p className="text-xl sm:text-2xl font-extrabold text-text-primary tracking-tight">Ayush Koli</p>
               <p className="text-text-secondary text-sm font-medium mt-2">
@@ -36,7 +36,7 @@ export default function About() {
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 flex-1 px-5 py-3.5 rounded-2xl border border-border/60 bg-surface-2 text-text-primary font-bold text-sm hover:bg-white/5 transition-colors touch-manipulation"
+              className="inline-flex items-center justify-center gap-2.5 flex-1 px-5 py-3.5 rounded-2xl border border-border/60 glass-card text-text-primary font-bold text-sm hover:bg-white/5 transition-colors touch-manipulation"
             >
               <Code2 className="w-5 h-5 shrink-0" />
               GitHub

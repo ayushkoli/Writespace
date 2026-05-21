@@ -80,10 +80,10 @@ export default function Settings() {
       <div className="p-4 sm:p-6 lg:p-8">
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 lg:gap-8">
           <div className="xl:col-span-7 space-y-6">
-            <div className="card-premium rounded-3xl p-6 sm:p-8 border border-border/40">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-5 mb-8 pb-8 border-b border-border/60">
+            <div className="card-premium rounded-3xl p-6 sm:p-8 border border-white/10">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-5 mb-8 pb-8 border-b border-white/10">
                 <div className="relative shrink-0 self-start">
-                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-surface-3 ring-2 ring-border/50">
+                  <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-white/5 ring-2 ring-white/10">
                     {displayPhoto ? (
                       <img src={displayPhoto} alt="" className="w-full h-full object-cover" />
                     ) : (
@@ -112,7 +112,7 @@ export default function Settings() {
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
                     disabled={photoLoading}
-                    className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border text-sm font-bold text-text-primary hover:bg-white/5 transition-colors disabled:opacity-50"
+                    className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-sm font-bold text-text-primary hover:bg-white/5 transition-colors disabled:opacity-50"
                   >
                     <Camera className="w-4 h-4" />
                     Change photo
@@ -186,9 +186,9 @@ export default function Settings() {
           </div>
 
           <div className="xl:col-span-5 space-y-6">
-            <div className="card-premium rounded-3xl p-6 sm:p-8 border border-border/40 h-fit">
+            <div className="card-premium rounded-3xl p-6 sm:p-8 border border-white/10 h-fit">
               <h3 className="text-lg font-extrabold text-text-primary mb-5 tracking-tight">Account</h3>
-              <div className="space-y-0 divide-y divide-border/60">
+              <div className="space-y-0 divide-y divide-white/10">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 py-4 first:pt-0">
                   <span className="text-text-muted text-sm font-medium">Username</span>
                   <span className="text-text-primary font-bold sm:text-right">@{user?.username}</span>

@@ -140,157 +140,159 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
   };
 
   return (
-    <article
-      role="button"
-      tabIndex={0}
-      onClick={openPost}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openPost();
-        }
-      }}
-      className={`${colorScheme.bg} rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer border border-border/50 touch-manipulation ${
-        isLong ? "p-4 sm:p-6" : "p-4 sm:p-5"
-      }`}
-    >
-      <div className="flex items-start gap-3 mb-3">
-        <Link
-          to={`/profile/${author.username}`}
-          onClick={(e) => e.stopPropagation()}
-          className="flex-shrink-0 touch-manipulation"
-        >
-          <div
-            className={`w-10 h-10 rounded-full overflow-hidden ring-2 ${
-              onGradient ? "ring-white/20" : "ring-border"
-            }`}
-          >
-            {author.profilePhoto ? (
-              <img
-                src={author.profilePhoto}
-                alt=""
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-sm font-satoshi font-black bg-surface-3 text-text-muted">
-                {author.name?.[0]?.toUpperCase() || "?"}
-              </div>
-            )}
-          </div>
-        </Link>
-
-        <div className="flex-1 min-w-0 pt-0.5">
-          <div className="flex items-center gap-1 flex-wrap leading-tight">
-            <Link
-              to={`/profile/${author.username}`}
-              onClick={(e) => e.stopPropagation()}
-              className={`font-satoshi font-bold text-[15px] ${colorScheme.text} truncate touch-manipulation`}
-            >
-              {author.name}
-            </Link>
-            <span
-              className={`${colorScheme.accent} text-sm truncate max-w-[120px] sm:max-w-none`}
-            >
-              @{author.username}
-            </span>
-            <span className={`${colorScheme.accent} text-sm shrink-0`}>·</span>
-            <time className={`${colorScheme.accent} text-sm shrink-0`}>
-              {timeAgo(post.createdAt)}
-            </time>
-          </div>
-        </div>
-      </div>
-
-      {post.title && (
-        <h3
-          className={`font-satoshi font-black text-lg sm:text-xl mb-1.5 ${colorScheme.text} leading-tight`}
-        >
-          {post.title}
-        </h3>
-      )}
-
-      {post.content &&
-        renderContentWithLinks(
-          post.content,
-          `${colorScheme.text} text-[15px] sm:text-base leading-relaxed whitespace-pre-wrap break-words`,
-        )}
-
-      {post.image && (
-        <div
-          className={`mt-3 rounded-xl md:rounded-2xl overflow-hidden ring-1 ${
-            onGradient ? "ring-white/10" : "ring-border"
-          }`}
-        >
-          <img
-            src={post.image}
-            alt=""
-            className="w-full h-auto max-h-[280px] md:max-h-[300px] object-cover"
-          />
-        </div>
-      )}
-
-      <div
-        className={`flex items-center justify-between mt-4 pt-3 border-t ${
-          onGradient ? "border-white/10" : "border-border"
+    <>
+      <article
+        role="button"
+        tabIndex={0}
+        onClick={openPost}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openPost();
+          }
+        }}
+        className={`${colorScheme.bg} rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer border ${colorScheme.border} touch-manipulation bg-clip-padding ${
+          isLong ? "p-4 sm:p-6" : "p-4 sm:p-5"
         }`}
-        onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center flex-1 justify-around sm:justify-start sm:gap-6">
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              openPost();
-            }}
-            className={`flex items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] -my-1 px-2 rounded-full ${colorScheme.accent} font-medium touch-manipulation`}
-            aria-label={`${post.comments.length} replies`}
+        <div className="flex items-start gap-3 mb-3">
+          <Link
+            to={`/profile/${author.username}`}
+            onClick={(e) => e.stopPropagation()}
+            className="flex-shrink-0 touch-manipulation"
           >
-            <MessageCircle className="w-[18px] h-[18px] sm:w-4 sm:h-4" />
-            <span className="text-sm tabular-nums">{post.comments.length}</span>
-          </button>
+            <div
+              className={`w-10 h-10 rounded-full overflow-hidden ring-2 ${
+                onGradient ? "ring-white/20" : "ring-white/10"
+              }`}
+            >
+              {author.profilePhoto ? (
+                <img
+                  src={author.profilePhoto}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-sm font-satoshi font-black bg-white/5 text-text-secondary">
+                  {author.name?.[0]?.toUpperCase() || "?"}
+                </div>
+              )}
+            </div>
+          </Link>
 
-          <button
-            type="button"
-            disabled={!user || likeBusy}
-            onClick={handleLike}
-            className={`flex items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] -my-1 px-2 rounded-full disabled:opacity-40 touch-manipulation ${
-              isLiked ? "text-pink-500" : `${colorScheme.accent}`
-            }`}
-            aria-label={isLiked ? "Unlike" : "Like"}
-          >
-            <Heart
-              className={`w-[18px] h-[18px] sm:w-4 sm:h-4 ${isLiked ? "fill-current" : ""}`}
-            />
-            <span className="text-sm font-bold tabular-nums">{likeCount}</span>
-          </button>
-
-          <button
-            type="button"
-            disabled={!user || saveBusy}
-            onClick={handleSave}
-            className={`flex items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] -my-1 px-2 rounded-full disabled:opacity-40 touch-manipulation ${
-              isSaved ? "text-white" : `${colorScheme.accent}`
-            }`}
-            aria-label={isSaved ? "Unsave" : "Save"}
-          >
-            <Bookmark
-              className={`w-[18px] h-[18px] sm:w-4 sm:h-4 ${isSaved ? "fill-current" : ""}`}
-            />
-            <span className="text-sm font-bold tabular-nums">{saveCount}</span>
-          </button>
+          <div className="flex-1 min-w-0 pt-0.5">
+            <div className="flex items-center gap-1 flex-wrap leading-tight">
+              <Link
+                to={`/profile/${author.username}`}
+                onClick={(e) => e.stopPropagation()}
+                className={`font-satoshi font-bold text-[15px] ${colorScheme.text} truncate touch-manipulation`}
+              >
+                {author.name}
+              </Link>
+              <span
+                className={`${colorScheme.accent} text-sm truncate max-w-[120px] sm:max-w-none`}
+              >
+                @{author.username}
+              </span>
+              <span className={`${colorScheme.accent} text-sm shrink-0`}>·</span>
+              <time className={`${colorScheme.accent} text-sm shrink-0`}>
+                {timeAgo(post.createdAt)}
+              </time>
+            </div>
+          </div>
         </div>
 
-        {isOwner && (
-          <button
-            type="button"
-            onClick={openDeleteDialog}
-            className={`flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full ${colorScheme.accent} touch-manipulation`}
-            aria-label="Delete post"
+        {post.title && (
+          <h3
+            className={`font-satoshi font-black text-lg sm:text-xl mb-1.5 ${colorScheme.text} leading-tight`}
           >
-            <Trash2 className="w-4 h-4" />
-          </button>
+            {post.title}
+          </h3>
         )}
-      </div>
+
+        {post.content &&
+          renderContentWithLinks(
+            post.content,
+            `${colorScheme.text} text-[15px] sm:text-base leading-relaxed whitespace-pre-wrap break-words`,
+          )}
+
+        {post.image && (
+          <div
+            className={`mt-3 rounded-xl md:rounded-2xl overflow-hidden ring-1 ${
+              onGradient ? "ring-white/10" : "ring-border"
+            }`}
+          >
+            <img
+              src={post.image}
+              alt=""
+              className="w-full h-auto max-h-[280px] md:max-h-[300px] object-cover"
+            />
+          </div>
+        )}
+
+        <div
+          className={`flex items-center justify-between mt-4 pt-3 border-t ${
+            onGradient ? "border-white/10" : "border-border"
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center flex-1 justify-around sm:justify-start sm:gap-6">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                openPost();
+              }}
+              className={`flex items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] -my-1 px-2 rounded-full ${colorScheme.accent} font-medium touch-manipulation`}
+              aria-label={`${post.comments.length} replies`}
+            >
+              <MessageCircle className="w-[18px] h-[18px] sm:w-4 sm:h-4" />
+              <span className="text-sm tabular-nums">{post.comments.length}</span>
+            </button>
+
+            <button
+              type="button"
+              disabled={!user || likeBusy}
+              onClick={handleLike}
+              className={`flex items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] -my-1 px-2 rounded-full disabled:opacity-40 touch-manipulation ${
+                isLiked ? "text-pink-500" : `${colorScheme.accent}`
+              }`}
+              aria-label={isLiked ? "Unlike" : "Like"}
+            >
+              <Heart
+                className={`w-[18px] h-[18px] sm:w-4 sm:h-4 ${isLiked ? "fill-current" : ""}`}
+              />
+              <span className="text-sm font-bold tabular-nums">{likeCount}</span>
+            </button>
+
+            <button
+              type="button"
+              disabled={!user || saveBusy}
+              onClick={handleSave}
+              className={`flex items-center justify-center gap-1.5 min-w-[44px] min-h-[44px] -my-1 px-2 rounded-full disabled:opacity-40 touch-manipulation ${
+                isSaved ? "text-white" : `${colorScheme.accent}`
+              }`}
+              aria-label={isSaved ? "Unsave" : "Save"}
+            >
+              <Bookmark
+                className={`w-[18px] h-[18px] sm:w-4 sm:h-4 ${isSaved ? "fill-current" : ""}`}
+              />
+              <span className="text-sm font-bold tabular-nums">{saveCount}</span>
+            </button>
+          </div>
+
+          {isOwner && (
+            <button
+              type="button"
+              onClick={openDeleteDialog}
+              className={`flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full ${colorScheme.accent} touch-manipulation`}
+              aria-label="Delete post"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+      </article>
 
       <ConfirmDialog
         isOpen={deleteDialogOpen}
@@ -301,6 +303,6 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
         onClose={() => !deleteBusy && setDeleteDialogOpen(false)}
         onConfirm={confirmDeletePost}
       />
-    </article>
+    </>
   );
 }

@@ -166,20 +166,20 @@ export default function PostDetail() {
 
       <div className="px-3 sm:px-6 pt-3 sm:pt-6 space-y-3 sm:space-y-4">
         <article
-          className={`${colorScheme.bg} rounded-2xl md:rounded-3xl overflow-hidden border border-border/50 shadow-lg md:shadow-xl shadow-black/20`}
+          className={`${colorScheme.bg} rounded-2xl md:rounded-3xl overflow-hidden border ${colorScheme.border} shadow-lg md:shadow-xl shadow-black/20 bg-clip-padding`}
         >
           <div className="p-4 sm:p-8">
             <div className="flex gap-4">
               <Link to={`/profile/${author.username}`} className="flex-shrink-0">
                 <div
                   className={`w-12 h-12 rounded-full overflow-hidden ring-2 ${
-                    onGradient ? 'ring-white/20' : 'ring-border'
+                    onGradient ? 'ring-white/20' : 'ring-white/10'
                   }`}
                 >
                   {author.profilePhoto ? (
                     <img src={author.profilePhoto} alt={author.name} className="w-full h-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-xl font-extrabold bg-surface-3 text-text-muted">
+                    <div className="w-full h-full flex items-center justify-center text-xl font-extrabold bg-white/5 text-text-secondary">
                       {author.name?.[0]?.toUpperCase() || '?'}
                     </div>
                   )}
@@ -200,13 +200,13 @@ export default function PostDetail() {
                 </div>
 
                 {post.title && (
-                  <h2 className={`mt-4 font-satoshi font-black text-xl sm:text-2xl ${colorScheme.text} leading-tight`}>
+                  <h2 className={`mt-4 font-satoshi font-black text-lg sm:text-2xl ${colorScheme.text} leading-tight`}>
                     {post.title}
                   </h2>
                 )}
 
                 <p
-                  className={`${post.title ? 'mt-3' : 'mt-4'} text-xl sm:text-2xl ${colorScheme.text} whitespace-pre-wrap break-words leading-relaxed font-semibold`}
+                  className={`${post.title ? 'mt-3' : 'mt-4'} text-lg sm:text-2xl ${colorScheme.text} whitespace-pre-wrap break-words leading-relaxed font-semibold`}
                 >
                   {post.content}
                 </p>
@@ -310,13 +310,13 @@ export default function PostDetail() {
         </article>
 
         {user && (
-          <div className="rounded-3xl border border-border/60 bg-surface-2/30 p-5 sm:p-6">
+          <div className="rounded-3xl border border-border/60 glass-card p-5 sm:p-6">
             <div className="flex gap-4">
-              <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-surface-3 ring-2 ring-border/50">
+              <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-white/5 ring-2 ring-white/10">
                 {user.profilePhoto ? (
                   <img src={user.profilePhoto} alt="" className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-sm font-extrabold text-text-muted">
+                  <div className="w-full h-full flex items-center justify-center text-sm font-extrabold text-text-secondary">
                     {user.name?.[0]?.toUpperCase() || '?'}
                   </div>
                 )}
@@ -343,7 +343,7 @@ export default function PostDetail() {
           </div>
         )}
 
-        <div className="rounded-3xl border border-border/60 bg-surface-2/20 overflow-hidden">
+        <div className="rounded-3xl border border-border/60 glass-card overflow-hidden">
           {post.comments.length === 0 ? (
             <div className="p-12 sm:p-16 text-center">
               <p className="text-xl font-extrabold text-text-primary mb-2">No replies yet</p>
@@ -361,19 +361,19 @@ export default function PostDetail() {
                 return (
                   <li key={c._id} className="p-5 sm:p-6 hover:bg-white/[0.02] transition-colors">
                     <div className="flex gap-4">
-                      <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 bg-surface-3 ring-2 ring-border/40">
+                      <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 bg-white/5 ring-2 ring-white/10">
                         {commentAuthor.profilePhoto ? (
-                          <img
-                            src={commentAuthor.profilePhoto}
-                            alt=""
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-xs font-extrabold text-text-muted">
-                            {commentAuthor.name?.[0]?.toUpperCase() || '?'}
-                          </div>
-                        )}
-                      </div>
+                           <img
+                             src={commentAuthor.profilePhoto}
+                             alt=""
+                             className="w-full h-full object-cover"
+                           />
+                         ) : (
+                           <div className="w-full h-full flex items-center justify-center text-xs font-extrabold text-text-secondary">
+                             {commentAuthor.name?.[0]?.toUpperCase() || '?'}
+                           </div>
+                         )}
+                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
                           <span className="font-extrabold text-text-primary text-sm">{commentAuthor.name}</span>

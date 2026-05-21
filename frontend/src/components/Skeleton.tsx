@@ -34,7 +34,13 @@ export function SkeletonPostGrid({ count = 6 }: { count?: number }) {
     <>
       <div className="flex flex-col gap-3 px-3 py-3 md:hidden">{items}</div>
       <div className="hidden md:block p-5">
-        <div className="columns-2 lg:columns-3 gap-4 [&>*]:break-inside-avoid [&>*]:mb-4">{items}</div>
+        <div className="columns-2 lg:columns-3 gap-4">
+          {items.map((item, idx) => (
+            <div key={idx} className="break-inside-avoid mb-4 p-[1px]">
+              {item}
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

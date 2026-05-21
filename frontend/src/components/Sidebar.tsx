@@ -64,7 +64,7 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[90px] border-r border-border flex-col bg-black z-30">
+    <aside className="hidden md:flex fixed left-0 top-0 h-screen w-[90px] border-r border-white/5 flex-col bg-black/40 backdrop-blur-xl z-30">
       <div className="flex justify-center pt-6 pb-2 shrink-0">
         <Link to="/about" className="group" title="About Writespace">
           <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center transition-smooth group-hover:scale-[1.03] shadow-lg shadow-white/10">
@@ -92,7 +92,7 @@ export default function Sidebar() {
           type="button"
           onClick={() => setShowSignOutConfirm(true)}
           title="Sign out"
-          className="flex items-center justify-center w-14 h-14 rounded-2xl text-red-500 hover:text-red-400 hover:bg-white/10 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/40"
+          className="flex items-center justify-center w-14 h-14 rounded-2xl text-gray-500 hover:text-white hover:bg-white/10 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
         >
           <LogOut className="w-6 h-6" />
         </button>
@@ -112,7 +112,7 @@ export default function Sidebar() {
             aria-label="Close"
             disabled={signingOut}
           />
-          <div className="relative w-full sm:max-w-sm bg-surface-2 border border-border/60 rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 animate-slide-up">
+          <div className="relative w-full sm:max-w-sm glass border border-white/10 rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 animate-slide-up">
             <h2 id="sign-out-title" className="text-lg font-extrabold text-text-primary mb-2">
               Sign out?
             </h2>
@@ -124,7 +124,7 @@ export default function Sidebar() {
                 type="button"
                 onClick={() => setShowSignOutConfirm(false)}
                 disabled={signingOut}
-                className="px-5 py-2.5 rounded-full border border-border text-text-primary font-bold text-sm hover:bg-white/5 transition-colors disabled:opacity-50"
+                className="px-5 py-2.5 rounded-full border border-white/10 text-text-primary font-bold text-sm hover:bg-white/5 transition-colors disabled:opacity-50"
               >
                 Cancel
               </button>
@@ -132,7 +132,7 @@ export default function Sidebar() {
                 type="button"
                 onClick={handleSignOut}
                 disabled={signingOut}
-                className="px-5 py-2.5 rounded-full bg-red-600 hover:bg-red-500 text-white font-bold text-sm transition-colors disabled:opacity-50"
+                className="px-5 py-2.5 rounded-full bg-white hover:bg-white/90 text-black font-bold text-sm transition-colors disabled:opacity-50"
               >
                 {signingOut ? 'Signing out…' : 'Sign out'}
               </button>

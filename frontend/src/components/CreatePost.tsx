@@ -84,13 +84,13 @@ export default function CreatePost({ onPostCreated }: CreatePostProps) {
   return (
     <div className="px-3 sm:px-6 py-4 md:py-6 animate-fade-in pb-[env(safe-area-inset-bottom)]">
       <div
-        className={`w-full rounded-2xl md:rounded-3xl border overflow-hidden transition-smooth ${color.bg} ${onGradient ? "border-white/10" : "border-border/60"}`}
+        className={`w-full rounded-2xl md:rounded-3xl border overflow-hidden transition-smooth bg-clip-padding ${color.bg} ${color.border}`}
       >
         <div className="p-4 sm:p-6">
           <div className="flex gap-3 sm:gap-4">
             <div
-              className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden shrink-0 bg-surface-3 ring-2 ${
-                onGradient ? "ring-white/20" : "ring-border/50"
+              className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden shrink-0 bg-white/5 ring-2 ${
+                onGradient ? "ring-white/20" : "ring-white/10"
               }`}
             >
               {user.profilePhoto ? (
