@@ -37,21 +37,21 @@ export default function Landing() {
 
         {/* Hero Subtitle */}
         <p className="text-white/45 text-sm sm:text-base font-medium max-w-md mx-auto mb-10 leading-relaxed">
-          Write posts, follow creators, and bookmark what inspires you all in a
-          distraction-free writing environment.
+          Your feed. Your voice. Follow writers you love, share ideas that
+          matter, and never lose a post worth revisiting.
         </p>
 
         {/* Sleek CTA Buttons */}
-        <div className="flex items-center justify-center gap-3.5 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto px-4">
           <Link
             to="/register"
-            className="px-6 py-3 bg-white text-black font-semibold rounded-full text-xs hover:bg-white/90 active:scale-98 transition-all"
+            className="w-full sm:w-auto px-6 py-3.5 bg-white text-black font-semibold rounded-full text-xs hover:bg-white/90 active:scale-98 transition-all text-center"
           >
             Get started
           </Link>
           <Link
             to="/login"
-            className="px-6 py-3 rounded-full border border-white/10 hover:border-white/15 text-white/90 font-semibold text-xs transition-all hover:bg-white/[0.02] active:scale-98"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-full border border-white/10 hover:border-white/15 text-white/90 font-semibold text-xs transition-all hover:bg-white/[0.02] active:scale-98 text-center"
           >
             Explore feed
           </Link>
