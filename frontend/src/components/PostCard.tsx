@@ -45,6 +45,7 @@ const renderContentWithLinks = (text: string, className: string) => {
 export default function PostCard({ post, onDelete }: PostCardProps) {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [now] = useState(() => Date.now());
   const [isLiked, setIsLiked] = useState(() =>
     listIncludesUserId(post.likes, user?._id),
   );
@@ -59,10 +60,18 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
   const [deleteBusy, setDeleteBusy] = useState(false);
 
   useEffect(() => {
-    setIsLiked(listIncludesUserId(post.likes, user?._id));
-    setIsSaved(listIncludesUserId(post.saves, user?._id));
-    setLikeCount(post.likes.length);
-    setSaveCount(post.saves.length);
+    let active = true;
+    Promise.resolve().then(() => {
+      if (active) {
+        setIsLiked(listIncludesUserId(post.likes, user?._id));
+        setIsSaved(listIncludesUserId(post.saves, user?._id));
+        setLikeCount(post.likes.length);
+        setSaveCount(post.saves.length);
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, [post._id, user?._id, post.likes, post.saves]);
 
   const author = (typeof post.userId === "string" ? {} : post.userId) as User;
@@ -130,7 +139,7 @@ export default function PostCard({ post, onDelete }: PostCardProps) {
   };
 
   const timeAgo = (date: string) => {
-    const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
+    const seconds = Math.floor((now - new Date(date).getTime()) / 1000);
     if (seconds < 60) return `${seconds}s`;
     const minutes = Math.floor(seconds / 60);
     if (minutes < 60) return `${minutes}m`;

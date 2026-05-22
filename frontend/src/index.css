@@ -43,6 +43,24 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0.7; }
   }
+
+  --animate-blob-1: float-blob-1 12s infinite alternate ease-in-out;
+  --animate-blob-2: float-blob-2 15s infinite alternate ease-in-out;
+  --animate-grid-pan: gridPan 20s linear infinite;
+
+  @keyframes float-blob-1 {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+  }
+  @keyframes float-blob-2 {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    50% { transform: translate(-40px, 40px) scale(1.15); }
+  }
+  @keyframes gridPan {
+    from { background-position: 0 0; }
+    to { background-position: 40px 40px; }
+  }
 }
 
 :root {
@@ -191,4 +209,11 @@ body {
 
 .animate-glow {
   animation: borderGlow 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.bg-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
 }

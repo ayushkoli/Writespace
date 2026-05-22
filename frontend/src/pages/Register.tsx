@@ -36,8 +36,16 @@ export default function Register() {
       const uploadWarning = await register(data);
       if (uploadWarning) addToast(uploadWarning, 'info');
       navigate('/home');
-    } catch {
-      setError('Registration failed. Please try again.');
+    } catch (err) {
+      let errorMessage = 'Registration failed. Please try again.';
+      if (err && typeof err === 'object' && 'response' in err) {
+        const response = (err as { response?: { data?: { message?: string } } }).response;
+        if (response?.data?.message) {
+          errorMessage = response.data.message;
+        }
+      }
+      setError(errorMessage);
+      addToast(errorMessage, 'error');
     } finally {
       setLoading(false);
     }
@@ -52,7 +60,7 @@ export default function Register() {
           </div>
         </Link>
 
-        <h1 className="text-4xl font-extrabold text-text-primary mb-8 text-center tracking-tight">Create account</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-text-primary mb-8 text-center tracking-tight">Create account</h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
@@ -66,7 +74,7 @@ export default function Register() {
             placeholder="Username"
             value={formData.username}
             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium"
+            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium text-base"
             required
           />
 
@@ -75,7 +83,7 @@ export default function Register() {
             placeholder="Email"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium"
+            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium text-base"
             required
           />
 
@@ -84,7 +92,7 @@ export default function Register() {
             placeholder="Full name"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium"
+            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium text-base"
             required
           />
 
@@ -94,7 +102,7 @@ export default function Register() {
             min="1"
             value={formData.age}
             onChange={(e) => setFormData({ ...formData, age: e.target.value })}
-            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium"
+            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium text-base"
             required
           />
 
@@ -103,7 +111,7 @@ export default function Register() {
             placeholder="Password"
             value={formData.password}
             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium"
+            className="w-full px-4 py-4 input-premium rounded-xl text-text-primary placeholder-text-muted font-medium text-base"
             required
           />
 
@@ -120,7 +128,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-4 btn-primary font-bold rounded-full disabled:opacity-50"
+            className="w-full py-4 btn-primary font-bold rounded-full disabled:opacity-50 text-base"
           >
             {loading ? 'Creating account...' : 'Sign up'}
           </button>

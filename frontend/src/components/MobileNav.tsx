@@ -1,27 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Home, Bookmark, User, Plus, LogOut } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import ConfirmDialog from "./ConfirmDialog";
 
 export default function MobileNav() {
   const location = useLocation();
   const { user, logout } = useAuth();
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
-
-  useEffect(() => {
-    if (!showSignOutConfirm) return;
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && !signingOut) setShowSignOutConfirm(false);
-    };
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [showSignOutConfirm, signingOut]);
 
   const handleSignOut = async () => {
     setSigningOut(true);
@@ -104,49 +91,16 @@ export default function MobileNav() {
           </button>
         </div>
       </nav>
-
-      {showSignOutConfirm && (
-        <div
-          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="mobile-sign-out-title"
-        >
-          <button
-            type="button"
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-            onClick={() => !signingOut && setShowSignOutConfirm(false)}
-            aria-label="Close"
-            disabled={signingOut}
-          />
-          <div className="relative w-full sm:max-w-sm glass border border-white/10 rounded-t-3xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 animate-slide-up">
-            <h2 id="mobile-sign-out-title" className="text-lg font-extrabold text-text-primary mb-2">
-              Sign out?
-            </h2>
-            <p className="text-text-muted text-sm font-medium mb-6">
-              Do you want to sign out of your account?
-            </p>
-            <div className="flex flex-col-reverse sm:flex-row gap-3 sm:justify-end">
-              <button
-                type="button"
-                onClick={() => setShowSignOutConfirm(false)}
-                disabled={signingOut}
-                className="px-5 py-2.5 rounded-full border border-white/10 text-text-primary font-bold text-sm hover:bg-white/5 transition-colors disabled:opacity-50"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleSignOut}
-                disabled={signingOut}
-                className="px-5 py-2.5 rounded-full bg-white hover:bg-white/90 text-black font-bold text-sm transition-colors disabled:opacity-50"
-              >
-                {signingOut ? 'Signing out…' : 'Sign out'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ConfirmDialog
+        isOpen={showSignOutConfirm}
+        title="Sign out?"
+        message="Do you want to sign out of your account?"
+        confirmLabel="Sign out"
+        danger={false}
+        loading={signingOut}
+        onClose={() => setShowSignOutConfirm(false)}
+        onConfirm={handleSignOut}
+      />
     </>
   );
 }

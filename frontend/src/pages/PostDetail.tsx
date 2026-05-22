@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Heart, Bookmark, MessageCircle, Trash2, Pencil } from 'lucide-react';
 import type { Post, User, Comment } from '../types';
@@ -18,6 +18,7 @@ export default function PostDetail() {
   const [post, setPost] = useState<Post | null>(null);
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(true);
+  const [now] = useState(() => Date.now());
   const [submitting, setSubmitting] = useState(false);
   const [engagementBusy, setEngagementBusy] = useState<'like' | 'save' | null>(null);
   const [showEdit, setShowEdit] = useState(false);
@@ -27,7 +28,7 @@ export default function PostDetail() {
   const { user } = useAuth();
   const { addToast } = useToast();
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     if (!postId) return;
     try {
       const { data } = await postApi.getPostById(postId);
@@ -37,11 +38,19 @@ export default function PostDetail() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [postId]);
 
   useEffect(() => {
-    fetchPost();
-  }, [postId]);
+    let active = true;
+    Promise.resolve().then(() => {
+      if (active) {
+        fetchPost();
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, [fetchPost]);
 
   const handleComment = async () => {
     if (!comment.trim() || !postId) return;
@@ -50,7 +59,6 @@ export default function PostDetail() {
       await postApi.addComment(postId, comment);
       setComment('');
       fetchPost();
-      addToast('Reply posted', 'success');
     } catch {
       // ignore
     } finally {
@@ -80,7 +88,6 @@ export default function PostDetail() {
       await postApi.deleteComment(postId, deleteCommentId);
       setDeleteCommentId(null);
       fetchPost();
-      addToast('Reply deleted', 'success');
     } catch {
       // ignore
     } finally {
@@ -149,8 +156,9 @@ export default function PostDetail() {
     user &&
     (typeof post.userId === 'object' ? (post.userId as User)._id === user._id : post.userId === user._id);
 
+
   const timeAgo = (date: string) => {
-    const seconds = Math.floor((Date.now() - new Date(date).getTime()) / 1000);
+    const seconds = Math.floor((now - new Date(date).getTime()) / 1000);
     if (seconds < 60) return `${seconds}s`;
     const minutes = Math.floor(seconds / 60);
     if (minutes < 60) return `${minutes}m`;
@@ -361,7 +369,10 @@ export default function PostDetail() {
                 return (
                   <li key={c._id} className="p-5 sm:p-6 hover:bg-white/[0.02] transition-colors">
                     <div className="flex gap-4">
-                      <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 bg-white/5 ring-2 ring-white/10">
+                      <Link
+                        to={`/profile/${commentAuthor.username}`}
+                        className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 bg-white/5 ring-2 ring-white/10 hover:ring-white/30 transition-all"
+                      >
                         {commentAuthor.profilePhoto ? (
                            <img
                              src={commentAuthor.profilePhoto}
@@ -373,11 +384,21 @@ export default function PostDetail() {
                              {commentAuthor.name?.[0]?.toUpperCase() || '?'}
                            </div>
                          )}
-                       </div>
+                       </Link>
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                          <span className="font-extrabold text-text-primary text-sm">{commentAuthor.name}</span>
-                          <span className="text-text-muted text-sm font-medium">@{commentAuthor.username}</span>
+                          <Link
+                            to={`/profile/${commentAuthor.username}`}
+                            className="font-extrabold text-text-primary text-sm hover:underline"
+                          >
+                            {commentAuthor.name}
+                          </Link>
+                          <Link
+                            to={`/profile/${commentAuthor.username}`}
+                            className="text-text-muted text-sm font-medium hover:text-text-secondary transition-colors"
+                          >
+                            @{commentAuthor.username}
+                          </Link>
                           <span className="text-text-muted/50 text-sm">·</span>
                           <time className="text-text-muted text-sm font-medium">{timeAgo(c.createdAt)}</time>
                         </div>

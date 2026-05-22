@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Calendar, Link as LinkIcon, MapPin, Settings } from 'lucide-react';
 import type { Post } from '../types';
@@ -11,7 +11,6 @@ import { SkeletonProfile } from '../components/Skeleton';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { PAGE_SHELL } from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
-import { useToast } from '../contexts/ToastContext';
 
 interface ChannelData {
   _id: string;
@@ -41,11 +40,12 @@ export default function Profile() {
   const [showUnfollowConfirm, setShowUnfollowConfirm] = useState(false);
   const [isGlowing, setIsGlowing] = useState(false);
   const { user: currentUser } = useAuth();
-  const { addToast } = useToast();
 
   const isOwnProfile = currentUser?.username === username;
 
-  const fetchData = async () => {
+  const [now] = useState(() => Date.now());
+
+  const fetchData = useCallback(async () => {
     if (!username) return;
     setLoading(true);
     try {
@@ -61,11 +61,19 @@ export default function Profile() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [username]);
 
   useEffect(() => {
-    fetchData();
-  }, [username]);
+    let active = true;
+    Promise.resolve().then(() => {
+      if (active) {
+        fetchData();
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, [fetchData]);
 
   const performFollowUnfollow = async () => {
     if (!channel) return;
@@ -81,7 +89,6 @@ export default function Profile() {
         setIsGlowing(true);
         setTimeout(() => setIsGlowing(false), 1200);
       }
-      addToast(channel.isFollowed ? 'Unfollowed' : 'Following', 'success');
     } catch {
       // ignore
     }
@@ -247,7 +254,7 @@ export default function Profile() {
                       )}
                       <span className="inline-flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5 shrink-0" />
-                        Joined {new Date(channel.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                        Joined {new Date(channel.createdAt || now).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                       </span>
                     </div>
                   </div>
@@ -325,7 +332,7 @@ export default function Profile() {
                     )}
                     <span className="inline-flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5 shrink-0" />
-                      Joined {new Date(channel.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                      Joined {new Date(channel.createdAt || now).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
                     </span>
                   </div>
                 </div>

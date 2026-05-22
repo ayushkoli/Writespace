@@ -28,7 +28,15 @@ export default function Home() {
   }, [tab]);
 
   useEffect(() => {
-    fetchPosts();
+    let active = true;
+    Promise.resolve().then(() => {
+      if (active) {
+        fetchPosts();
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, [fetchPosts]);
 
   return (

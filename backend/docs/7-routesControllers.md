@@ -1,4 +1,4 @@
-# 🎮 Step 6: Controllers & Routes Setup
+# 🎮 Step 7: Controllers & Routes Setup
 
 ---
 

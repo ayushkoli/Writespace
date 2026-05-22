@@ -24,5 +24,15 @@ import postRouter from "./routes/post.routes.js"
 app.use("/api/v1/users",userRouter);
 app.use("/api/v1/posts",postRouter);
 
+// Global Error Handling Middleware
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Something went wrong";
+    return res.status(statusCode).json({
+        success: false,
+        message,
+        errors: err.errors || []
+    });
+});
 
 export default app

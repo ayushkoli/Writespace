@@ -69,7 +69,9 @@ const getPostById = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Invalid post ID");
     }
 
-    const post = await Post.findById(postId).populate("userId", "username name profilePhoto");
+    const post = await Post.findById(postId)
+        .populate("userId", "username name profilePhoto")
+        .populate("comments.writtenBy", "username name profilePhoto");
 
     if (!post) {
         throw new ApiError(404, "Post not found");
