@@ -34,7 +34,7 @@ export default function Landing() {
 
         {/* Hero Subtitle */}
         <p className="text-white/45 text-sm sm:text-base font-medium max-w-md mx-auto mb-10 leading-relaxed">
-          Write posts, follow creators, and bookmark what inspires you—all in a distraction-free writing environment.
+          Write posts, follow creators, and bookmark what inspires you all in a distraction-free writing environment.
         </p>
 
         {/* Sleek CTA Buttons */}
